@@ -8,58 +8,73 @@ body {
     min-height: 100vh;
     background-color: #f0f0f0;
     margin: 0;
+    padding: 0 10px; /* Añadimos padding para que no pegue a los bordes en móvil */
+    box-sizing: border-box;
 }
 
 h1 {
     color: #333;
+    text-align: center;
 }
 
-/* NUEVO: Estilos para los botones de nivel */
+/* * NUEVO: Estilos para el slider de dificultad
+ * Reemplaza los estilos de '.level-btn'
+ */
 #level-controls {
     margin-bottom: 20px;
     text-align: center;
+    width: 90%;
+    max-width: 400px; /* Límite para el slider */
 }
-.level-btn {
-    padding: 8px 15px;
-    margin: 0 5px;
-    font-size: 14px;
+#level-controls p {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    color: #555;
+}
+#level-slider {
+    width: 100%; /* El slider ocupa todo el ancho del contenedor */
     cursor: pointer;
-    background-color: #4A90E2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-.level-btn:hover {
-    background-color: #357ABD;
 }
 
 
-/* El tablero que contendrá las cartas */
+/* * CAMBIO CLAVE: El Tablero Responsivo
+ */
 .game-board {
     display: grid;
-    /* * MODIFICACIÓN:
-     * ¡Quitamos 'grid-template-columns' de aquí!
-     * JavaScript lo definirá dinámicamente.
-     */
     grid-gap: 10px;
     perspective: 1000px;
+
+    /* * LA MAGIA RESPONSIVA:
+     * 'auto-fit': Crea tantas columnas como quepan.
+     * 'minmax(100px, 1fr)': Cada columna debe tener MÍNIMO 100px,
+     * y MÁXIMO 1 fracción (se reparten el espacio sobrante).
+     *
+     * Esto reemplaza el 'grid-template-columns' que poníamos con JS.
+     */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    
+    /* * Para que en pantallas MUY anchas no se haga una sola línea de 18 cartas,
+     * le ponemos un límite. 650px = 6 cartas de 100px + 5 espacios de 10px.
+     */
+    max-width: 650px; 
+    width: 100%; /* Ocupa el 100% de su contenedor (que tiene 90% del body) */
 }
 
-/* * EL RESTO DEL CSS (.card, .card-inner, .card-front, .card-back, .matched) 
- * permanece EXACTAMENTE IGUAL que antes.
- * (No lo repito aquí para ser breve, solo copia y pega
- * la sección de botones de arriba en tu 'style.css'
- * y elimina la línea 'grid-template-columns' de '.game-board')
+/* * El resto de estilos de cartas (.card, .card-inner, .card-front,
+ * .card-back, .matched) permanecen EXACTAMENTE IGUAL.
+ * (Pégalos aquí desde tu archivo anterior).
  */
- 
+
 /* Pego el resto aquí para que sea más fácil */
 .card {
-    width: 100px;
-    height: 100px;
+    /* Usamos 'aspect-ratio' para asegurar que sea un cuadrado perfecto */
+    /* ¡Esto es mejor que 'width/height' fijos para responsivo! */
+    aspect-ratio: 1 / 1; 
+    /* width: 100px; */ /* Ya no necesitamos ancho fijo */
+    /* height: 100px; */ /* Ya no necesitamos alto fijo */
     position: relative;
     cursor: pointer;
-    transition: opacity 0.5s; /* Para cuando desaparece la carta */
+    transition: opacity 0.5s;
 }
 
 .card-inner {
@@ -67,7 +82,7 @@ h1 {
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s; /* La velocidad de la animación de volteo */
+    transition: transform 0.6s;
 }
 
 .card.flipped .card-inner {
@@ -88,18 +103,25 @@ h1 {
 }
 
 .card-front {
-    background-color: #4A90E2; /* Un color azul bonito */
+    background-color: #4A90E2;
     color: white;
-    font-size: 50px;
-    transform: rotateY(0deg); /* Aseguramos que mira hacia nosotros */
+    font-size: 50px; /* El tamaño se ajustará un poco por el tamaño de la carta */
+    transform: rotateY(0deg);
 }
 
 .card-back {
     background-color: #fff;
     font-size: 50px;
-    /* Gira 180 grados para estar "detrás" al inicio */
     transform: rotateY(180deg);
 }
+
+/* Ajuste de fuente para que no se salga en cartas más pequeñas */
+@media (max-width: 400px) {
+    .card-front, .card-back {
+        font-size: 40px;
+    }
+}
+
 
 .card.matched {
     opacity: 0;
