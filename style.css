@@ -6,34 +6,32 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    
+    /* === CAMBIO AQUÍ === */
+    background-color: #000; /* De #f0f0f0 a negro */
+    
     margin: 0;
-    padding: 0 10px; /* Añadimos padding para que no pegue a los bordes en móvil */
+    padding: 0 10px;
     box-sizing: border-box;
 }
 
 h1 {
-    /* 1. La fuente cómica que importamos */
+    /* 1. La fuente cómica (se mantiene) */
     font-family: 'Luckiest Guy', cursive;
     
-    /* 2. Los colores que pediste */
-    color: #FFEB3B; /* Un amarillo emoji brillante */
-    background-color: #000; /* Fondo negro */
+    /* 2. El color amarillo (se mantiene) */
+    color: #FFEB3B; 
     
-    /* 3. Estilos extra para que se vea genial */
+    /* 3. Estilos (¡ya no necesita fondo negro!) */
     text-align: center;
-    padding: 15px 30px; /* Espacio interno para que "respire" */
-    border-radius: 15px; /* Esquinas redondeadas */
-    
-    /* 4. Hacemos que el fondo no ocupe toda la pantalla */
-    display: inline-block; 
-    
-    /* 5. Una sombra leve para darle profundidad */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
     
-    /* 6. Un borde sutil que combine */
-    border: 3px solid #FFEB3B;
+    /* 4. Hacemos la fuente más grande para que sea el foco */
+    font-size: 3.5em; /* 3.5 veces el tamaño normal */
+    margin-top: 15px; /* Damos un poco de aire arriba */
+    margin-bottom: 10px; /* Un poco de espacio */
 }
+
 
 /* * NUEVO: Estilos para el slider de dificultad
  * Reemplaza los estilos de '.level-btn'
@@ -47,7 +45,9 @@ h1 {
 #level-controls p {
     margin: 0 0 10px 0;
     font-size: 1.1em;
-    color: #555;
+    
+    /* === CAMBIO AQUÍ === */
+    color: #eee; /* De #555 a un gris claro */
 }
 #level-slider {
     width: 100%; /* El slider ocupa todo el ancho del contenedor */
@@ -146,4 +146,5 @@ h1 {
     cursor: default;
     transition: opacity 0.8s ease;
 }
+
 
