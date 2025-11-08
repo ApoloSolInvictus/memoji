@@ -14,20 +14,46 @@ h1 {
     color: #333;
 }
 
+/* NUEVO: Estilos para los botones de nivel */
+#level-controls {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.level-btn {
+    padding: 8px 15px;
+    margin: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.level-btn:hover {
+    background-color: #357ABD;
+}
+
+
 /* El tablero que contendrá las cartas */
 .game-board {
     display: grid;
-    /* Para 4 cartas (2x2). Cambiaremos esto para más niveles */
-    grid-template-columns: repeat(2, 100px);
+    /* * MODIFICACIÓN:
+     * ¡Quitamos 'grid-template-columns' de aquí!
+     * JavaScript lo definirá dinámicamente.
+     */
     grid-gap: 10px;
-    
-    /* 'perspective' es necesario para la animación 3D (el volteo) */
     perspective: 1000px;
 }
 
-/* * LA CARTA (Contenedor principal)
- * Define el tamaño y la posición.
+/* * EL RESTO DEL CSS (.card, .card-inner, .card-front, .card-back, .matched) 
+ * permanece EXACTAMENTE IGUAL que antes.
+ * (No lo repito aquí para ser breve, solo copia y pega
+ * la sección de botones de arriba en tu 'style.css'
+ * y elimina la línea 'grid-template-columns' de '.game-board')
  */
+ 
+/* Pego el resto aquí para que sea más fácil */
 .card {
     width: 100px;
     height: 100px;
@@ -36,10 +62,6 @@ h1 {
     transition: opacity 0.5s; /* Para cuando desaparece la carta */
 }
 
-/* * El contenedor interno que realmente gira.
- * 'transform-style: preserve-3d' le dice al navegador que sus hijos 
- * deben ser tratados en un espacio 3D.
- */
 .card-inner {
     width: 100%;
     height: 100%;
@@ -48,17 +70,10 @@ h1 {
     transition: transform 0.6s; /* La velocidad de la animación de volteo */
 }
 
-/* * Cuando la carta tiene la clase 'flipped', giramos el contenedor interno.
- */
 .card.flipped .card-inner {
     transform: rotateY(180deg);
 }
 
-/* * Las caras de la carta (ambas, 'front' y 'back').
- * Ocupan todo el espacio, se posicionan de forma absoluta y
- * 'backface-visibility: hidden' oculta la cara que está "detrás"
- * durante la animación.
- */
 .card-front,
 .card-back {
     width: 100%;
@@ -72,7 +87,6 @@ h1 {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* La cara 'front' (la que se ve al inicio) */
 .card-front {
     background-color: #4A90E2; /* Un color azul bonito */
     color: white;
@@ -80,7 +94,6 @@ h1 {
     transform: rotateY(0deg); /* Aseguramos que mira hacia nosotros */
 }
 
-/* La cara 'back' (la que tiene el emoji) */
 .card-back {
     background-color: #fff;
     font-size: 50px;
@@ -88,13 +101,8 @@ h1 {
     transform: rotateY(180deg);
 }
 
-/* * Cuando encontramos un par, añadimos la clase 'matched'.
- * Esto hará que la carta se desvanezca.
- */
 .card.matched {
     opacity: 0;
-    /* Quitamos el cursor para que no parezca clickeable */
     cursor: default;
-    /* Hacemos que desaparezca un poco más lento que el volteo */
     transition: opacity 0.8s ease;
 }
