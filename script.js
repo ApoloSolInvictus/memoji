@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Configuración de los niveles
-    // MODIFICACIÓN: Quitamos 'grid' y añadimos 'nombre' para el slider.
     const nivelesConfig = {
         1: { pares: 2,  nombre: 'Fácil (4 cartas)' },
         2: { pares: 3,  nombre: 'Medio (6 cartas)' },
@@ -31,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Obtenemos los elementos del DOM
     const gameBoard = document.getElementById('game-board');
-    
-    // NUEVO: Elementos del slider
     const levelSlider = document.getElementById('level-slider');
     const levelDisplay = document.getElementById('level-display');
 
@@ -59,10 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         totalParesDelNivel = config.pares;
 
-        // --- IMPORTANTE: Eliminamos la línea de JS que controlaba el CSS ---
-        // gameBoard.style.gridTemplateColumns = config.grid; <-- ¡ESTA LÍNEA SE VA!
-        // Ahora el CSS (style.css) maneja esto automáticamente.
-
         // --- Preparar las cartas (esto sigue igual) ---
         barajar(EMOJI_MASTER_LIST);
         const emojisBase = EMOJI_MASTER_LIST.slice(0, totalParesDelNivel);
@@ -83,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function crearTablero(emojis) {
-        // (Esta función es exactamente igual que antes)
         emojis.forEach(emoji => {
             const carta = document.createElement('div');
             carta.classList.add('card');
@@ -109,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Funciones de Lógica de Juego (Exactamente igual que antes) ---
+    // --- Funciones de Lógica de Juego ---
 
     function voltearCarta(carta) {
         if (bloqueoDeTablero || carta === primeraCarta || carta.classList.contains('matched')) {
@@ -136,16 +128,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * *******************************************************
+     * ***** ¡CAMBIO IMPORTANTE AQUÍ!         *****
+     * *******************************************************
+     * * Ahora esta función avanza al siguiente nivel.
+     */
     function manejarCoincidencia() {
         primeraCarta.classList.add('matched');
         segundaCarta.classList.add('matched');
         paresEncontrados++;
         resetearTurno();
 
+        // Comprobamos si se encontraron todos los pares del nivel
         if (paresEncontrados === totalParesDelNivel) {
+            
+            // Damos tiempo a que la animación de 'matched' se vea
             setTimeout(() => {
                 alert('¡Felicidades, ganaste el nivel!');
-            }, 800);
+                
+                // Obtenemos el nivel actual del slider
+                let nivelActual = parseInt(levelSlider.value);
+                
+                // Calculamos el siguiente nivel
+                let siguienteNivel = nivelActual + 1;
+
+                // Verificamos si es el último nivel (el 8)
+                const maxLevel = parseInt(levelSlider.max);
+                
+                if (siguienteNivel > maxLevel) {
+                    alert('¡INCREÍBLE! ¡Has completado todos los niveles!');
+                    // Opcional: reiniciar al nivel 1
+                    levelSlider.value = 1;
+                    levelDisplay.textContent = nivelesConfig[1].nombre;
+                    iniciarJuego(1);
+                } else {
+                    // Si no es el último, avanzamos
+                    // 1. Actualizamos el valor del slider
+                    levelSlider.value = siguienteNivel;
+                    // 2. Actualizamos el texto
+                    levelDisplay.textContent = nivelesConfig[siguienteNivel].nombre;
+                    // 3. Iniciamos el siguiente nivel
+                    iniciarJuego(siguienteNivel);
+                }
+
+            }, 800); // 800ms para que se desvanezca la última carta
         }
     }
 
