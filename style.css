@@ -13,8 +13,26 @@ body {
 }
 
 h1 {
-    color: #333;
+    /* 1. La fuente cómica que importamos */
+    font-family: 'Luckiest Guy', cursive;
+    
+    /* 2. Los colores que pediste */
+    color: #FFEB3B; /* Un amarillo emoji brillante */
+    background-color: #000; /* Fondo negro */
+    
+    /* 3. Estilos extra para que se vea genial */
     text-align: center;
+    padding: 15px 30px; /* Espacio interno para que "respire" */
+    border-radius: 15px; /* Esquinas redondeadas */
+    
+    /* 4. Hacemos que el fondo no ocupe toda la pantalla */
+    display: inline-block; 
+    
+    /* 5. Una sombra leve para darle profundidad */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+    
+    /* 6. Un borde sutil que combine */
+    border: 3px solid #FFEB3B;
 }
 
 /* * NUEVO: Estilos para el slider de dificultad
@@ -128,3 +146,4 @@ h1 {
     cursor: default;
     transition: opacity 0.8s ease;
 }
+
